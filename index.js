@@ -1,6 +1,6 @@
 import express from "express";
-import { pool } from "./db.js";
-import { PORT } from "./config.js";
+import { pool } from "./src/db.js";
+import { PORT } from "./src/config.js";
 
 const app = express();
 
