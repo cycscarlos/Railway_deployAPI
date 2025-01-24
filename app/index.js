@@ -1,6 +1,6 @@
 import express from "express";
-import { pool } from "./src/db.js";
-import { PORT } from "./src/config.js";
+import { pool } from "../src/db.js";
+import { PORT } from "../src/config.js";
 
 const app = express();
 
@@ -26,7 +26,9 @@ app.get("/ping", async (req, res) => {
 
 // Creamos un backend
 app.get("/create", async (req, res) => {
-  const result = await pool.query("INSERT INTO users(name) VALUES('John Doe')");
+  const result = await pool.query(
+    "INSERT INTO users(name) VALUES('Mike Tyson')"
+  );
   res.json(result);
 });
 
