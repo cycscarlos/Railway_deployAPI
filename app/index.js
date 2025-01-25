@@ -119,5 +119,6 @@ app.delete("/users/:id", async (req, res) => {
 // console.log("Server running on port", PORT);
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  // console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
