@@ -2,6 +2,7 @@ import express from "express";
 import { pool } from "../src/db.js";
 import { PORT } from "../src/config.js";
 import cors from "cors";
+import morgan from "morgan";
 
 const app = express();
 
