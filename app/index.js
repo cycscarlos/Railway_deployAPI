@@ -4,11 +4,18 @@ import { PORT } from "../src/config.js";
 import cors from "cors";
 import morgan from "morgan";
 
+import dotenv from "dotenv";
+// Cargar las variables de entorno desde el archivo .env
+dotenv.config();
+
 const app = express();
 
 // Middleware para CORS y JSON
 app.use(cors());
 app.use(express.json());
+
+// Morgan
+app.use(morgan("tiny"));
 
 // Endpoint de healthcheck para Railway
 app.get("/health", async (req, res) => {
@@ -16,7 +23,7 @@ app.get("/health", async (req, res) => {
     // Verificar conexión a la base de datos
     const [result] = await pool.query("SELECT 1");
 
-    res.status(200).json({
+    const healthCheckResponse = {
       status: "OK",
       message: "API funcionando correctamente",
       database: {
@@ -29,9 +36,13 @@ app.get("/health", async (req, res) => {
         used: `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`,
         total: `${Math.round(process.memoryUsage().heapTotal / 1024 / 1024)}MB`,
       },
-    });
+    };
+
+    // Enviar la respuesta formateada como JSON
+    res.setHeader("Content-Type", "application/json"); // Asegúrate de que el tipo de contenido sea JSON
+    res.send(JSON.stringify(healthCheckResponse, null, 2)); // 2 espacios de indentación
   } catch (error) {
-    res.status(503).json({
+    const errorResponse = {
       status: "Error",
       message: "Problemas con el servicio",
       database: {
@@ -40,7 +51,11 @@ app.get("/health", async (req, res) => {
         error: error.message,
       },
       timestamp: new Date().toISOString(),
-    });
+    };
+
+    // Enviar la respuesta de error formateada como JSON
+    res.setHeader("Content-Type", "application/json"); // Asegúrate de que el tipo de contenido sea JSON
+    res.send(JSON.stringify(errorResponse, null, 2)); // 2 espacios de indentación
   }
 });
 
@@ -49,7 +64,11 @@ app.get("/", async (req, res) => {
   //   res.send("Welcome to server");
   try {
     const [rows] = await pool.query("SELECT * FROM users");
-    res.json(rows);
+    // Convertir el arreglo a un string JSON formateado
+    const formattedJson = JSON.stringify(rows, null, 2); // 2 espacios de indentación
+    res.setHeader("Content-Type", "application/json"); // Asegúrate de que el tipo de contenido sea JSON
+    res.send(formattedJson); // Enviar el JSON formateado
+    // res.json(rows);
   } catch (error) {
     console.error("Error fetching users:", error);
     res.status(500).json({ error: "Error al obtener usuarios" });
@@ -59,15 +78,20 @@ app.get("/", async (req, res) => {
 // Cuando busquen esta ruta; se hara una consulta a la base de datos y se devolverá una respuesta al cliente
 app.get("/ping", async (req, res) => {
   try {
-    const [result] = await pool.query('SELECT "hello word" as RESULT');
-    // se ve por consola
-    console.log(result[0]);
-    // res.send("Welcome to SQL server");
-    // se envía la respuesta al navegador como un JSON
-    res.json(result[0]);
+    const [result] = await pool.query('SELECT "hello world" as RESULT');
+    res.setHeader("Content-Type", "application/json"); // Asegúrate de que el tipo de contenido sea JSON
+    res.send(JSON.stringify(result[0], null, 2)); // 2 espacios de indentación
   } catch (error) {
     console.error("Error in ping:", error);
-    res.status(500).json({ error: "Error al conectar con la base de datos" });
+    res
+      .status(500)
+      .send(
+        JSON.stringify(
+          { error: "Error al conectar con la base de datos" },
+          null,
+          2
+        )
+      ); // 2 espacios de indentación
   }
 });
 
@@ -75,12 +99,15 @@ app.get("/ping", async (req, res) => {
 app.get("/create", async (req, res) => {
   try {
     const result = await pool.query(
-      "INSERT INTO users(name) VALUES('Mike Tyson')"
+      "INSERT INTO users(name) VALUES('Babe Ruth')"
     );
-    res.json(result);
+    res.setHeader("Content-Type", "application/json"); // Asegúrate de que el tipo de contenido sea JSON
+    res.send(JSON.stringify(result, null, 2)); // 2 espacios de indentación
   } catch (error) {
     console.error("Error creating user:", error);
-    res.status(500).json({ error: "Error al crear usuario" });
+    res
+      .status(500)
+      .send(JSON.stringify({ error: "Error al crear usuario" }, null, 2)); // 2 espacios de indentación
   }
 });
 
@@ -93,32 +120,51 @@ app.delete("/users/:id", async (req, res) => {
     const [user] = await pool.query("SELECT * FROM users WHERE id = ?", [id]);
 
     if (user.length === 0) {
-      return res.status(404).json({
-        error: "Usuario no encontrado",
-        message: `No existe un usuario con el ID ${id}`,
-      });
+      return res.status(404).send(
+        JSON.stringify(
+          {
+            error: "Usuario no encontrado",
+            message: `No existe un usuario con el ID ${id}`,
+          },
+          null,
+          2
+        )
+      ); // 2 espacios de indentación
     }
 
     // Eliminar el usuario
     const [result] = await pool.query("DELETE FROM users WHERE id = ?", [id]);
 
-    res.json({
-      message: "Usuario eliminado correctamente",
-      info: `Se eliminó el usuario con ID ${id}`,
-      result,
-    });
+    res.send(
+      JSON.stringify(
+        {
+          message: "Usuario eliminado correctamente",
+          info: `Se eliminó el usuario con ID ${id}`,
+          result,
+        },
+        null,
+        2
+      )
+    ); // 2 espacios de indentación
   } catch (error) {
     console.error("Error deleting user:", error);
-    res.status(500).json({
-      error: "Error al eliminar usuario",
-      message: error.message,
-    });
+    res.status(500).send(
+      JSON.stringify(
+        {
+          error: "Error al eliminar usuario",
+          message: error.message,
+        },
+        null,
+        2
+      )
+    ); // 2 espacios de indentación
   }
 });
 
 // app.listen(PORT);
 // console.log("Server running on port", PORT);
 
+console.log(`Intentando iniciar el servidor en el puerto: ${PORT}`);
 app.listen(PORT, () => {
   // console.log(`Server running on port ${PORT}`);
   console.log(`Server running on http://localhost:${PORT}`);
