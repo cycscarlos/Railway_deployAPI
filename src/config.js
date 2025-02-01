@@ -4,16 +4,14 @@ import dotenv from "dotenv";
 
 dotenv.config(); // Carga las variables de entorno desde el archivo .env
 
-// verificamos que las variables de entorno se entá cargando correctamente
+// verificamos que las variables de entorno se entá cargando correctamente desde el archivo .env
 console.log("config.js-> DB_USER:", process.env.DB_USER);
 console.log("config.js-> DB_PASSWORD:", process.env.DB_PASSWORD);
 
-// Railway
-// mysql://root:QXQUdQaYfyNcwCGtoyZCysstnRmxskon@autorack.proxy.rlwy.net:25004/railway
-
-// verificamos que nuestro proveedor en la nube nos este dando variables de entorno
+// verificamos que nuestro proveedor de la nube nos este dando el puerto como una variables de entorno
 export const PORT = process.env.PORT || 4000;
 
+// verificamos que nuestro proveedor de la nube nos este dando las variables de entorno requeridas para establecer la conexión con la Base de Datos
 export const DB_HOST = process.env.DB_HOST || "localhost";
 export const DB_USER = process.env.DB_USER || "root";
 export const DB_PASSWORD = process.env.DB_PASSWORD || "";
