@@ -164,7 +164,6 @@ app.delete("/users/:id", async (req, res) => {
 // app.listen(PORT);
 // console.log("Server running on port", PORT);
 
-const PORT = process.env.PORT || 5000; // Usa el puerto proporcionado por Railway o el puerto 5000 como predeterminado
 console.log(`Intentando iniciar el servidor en el puerto: ${PORT}`);
 app.listen(PORT, () => {  
   console.log(`Server running on http://localhost:${PORT}`);
