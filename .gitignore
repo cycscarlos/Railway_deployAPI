@@ -1,3 +1,4 @@
 /node_modules
 /originales
 .env
+db_fazt-railway.sql

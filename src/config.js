@@ -5,8 +5,8 @@ import dotenv from "dotenv";
 dotenv.config(); // Carga las variables de entorno desde el archivo .env
 
 // verificamos que las variables de entorno se entá cargando correctamente desde el archivo .env
-console.log("config.js-> DB_USER:", process.env.DB_USER);
-console.log("config.js-> DB_PASSWORD:", process.env.DB_PASSWORD);
+// console.log("config.js-> DB_USER:", process.env.DB_USER);
+// console.log("config.js-> DB_PASSWORD:", process.env.DB_PASSWORD);
 
 // verificamos que nuestro proveedor de la nube nos este dando el puerto como una variables de entorno
 export const PORT = process.env.PORT || 4000;
