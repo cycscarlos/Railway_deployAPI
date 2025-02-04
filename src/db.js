@@ -2,8 +2,12 @@
 
 import mysql from "mysql2/promise";
 
+// Cargar .env solo en desarrollo
+// if (process.env.NODE_ENV !== 'production') {
+//   import('dotenv').then(dotenv => dotenv.config());
+// }
+
 import dotenv from "dotenv";
-// Cargar .env solo en desarrollo, no en producción
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }

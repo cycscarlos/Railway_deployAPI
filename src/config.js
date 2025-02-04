@@ -1,6 +1,7 @@
 // Se utiliza tanto en desarrollo como en producción. Carga las variables de entorno desde .env en desarrollo o desde el proveedor de la nube, en un entorno de producción.
 
 import dotenv from "dotenv";
+
 // Cargar .env solo en desarrollo, no en producción
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
