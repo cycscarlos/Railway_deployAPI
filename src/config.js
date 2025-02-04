@@ -1,8 +1,10 @@
 // Se utiliza tanto en desarrollo como en producción. Carga las variables de entorno desde .env en desarrollo o desde el proveedor de la nube, en un entorno de producción.
 
 import dotenv from "dotenv";
-
-dotenv.config(); // Carga las variables de entorno desde el archivo .env
+// Cargar .env solo en desarrollo, no en producción
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
 
 // Ambiente de desarrollo. Verificación que las variables de entorno se estan cargando desde el archivo .env
 console.log("variable proveniente de .env | DB_HOST:", process.env.DB_HOST);
