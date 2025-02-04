@@ -5,10 +5,10 @@ import cors from "cors";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 
 // Cargar las variables de entorno desde el archivo .env
-dotenv.config();
+// dotenv.config();
 
 const app = express();
 
@@ -24,15 +24,34 @@ app.use(express.json());
 app.use(morgan("tiny"));
 
 // Servir archivos estáticos desde la carpeta "public"
-app.use(express.static(path.join(__dirname, '../public'))); // Ahora __dirname está definido
+app.use(express.static(path.join(__dirname, "../public"))); // Ahora __dirname está definido
 
 // EJS
 app.set("view engine", "ejs");
-app.set("views", "./src/views"); 
+app.set("views", "./src/views");
 
 // Formatos JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// endpoint temporal para probar la conexión a la base de datos
+app.get("/test-db", async (req, res) => {
+  try {
+    const connection = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    });
+
+    const [rows] = await connection.query("SELECT 1 + 1 AS result");
+    res.json({ success: true, result: rows[0].result });
+  } catch (error) {
+    console.error("Error connecting to the database:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
 
 // Endpoint de healthcheck para Railway
 app.get("/health", async (req, res) => {

@@ -15,6 +15,13 @@ console.log("variable entorno | DB_USER:", process.env.DB_USER);
 console.log("variable entorno | DB_PASSWORD:", process.env.DB_PASSWORD);
 console.log("variable entorno | DB_PORT:", process.env.DB_PORT);
 
+console.log("Entorno:", process.env.NODE_ENV);
+console.log("DB_HOST (Railway):", process.env.DB_HOST);
+console.log("DB_PORT (Railway):", process.env.DB_PORT);
+console.log("DB_USER (Railway):", process.env.DB_USER);
+console.log("DB_PASSWORD (Railway):", process.env.DB_PASSWORD);
+console.log("DB_NAME (Railway):", process.env.DB_NAME);
+
 // Sí el archivo .env o el proveedor de la nube NO proveé el puerto, entonces utiliza el 4000 por Default
  
 export const PORT = process.env.PORT || 4000;
