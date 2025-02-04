@@ -5,7 +5,7 @@ import cors from "cors";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
-// import dotenv from "dotenv";
+import dotenv from "dotenv";
 
 // Cargar las variables de entorno desde el archivo .env
 // dotenv.config();
