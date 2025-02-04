@@ -2,6 +2,12 @@
 
 import mysql from "mysql2/promise";
 
+import dotenv from "dotenv";
+// Cargar .env solo en desarrollo, no en producción
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config();
+}
+
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,

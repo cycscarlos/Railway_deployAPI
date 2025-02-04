@@ -7,6 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Ambiente de desarrollo. Verificación que las variables de entorno se estan cargando desde el archivo .env
+console.log("variable proveniente de .env | NODE_ENV:", process.env.NODE_ENV);
 console.log("variable proveniente de .env | DB_HOST:", process.env.DB_HOST);
 console.log("variable proveniente de .env | DB_NAME:", process.env.DB_NAME);
 console.log("variable proveniente de .env | DB_USER:", process.env.DB_USER);
