@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/users.css"> <!-- Asegúrate de que la ruta sea correcta -->
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/png" />
+    <title>Estado de la API</title>
+</head>
+
+<body>
+    <h1>Estado de la API</h1>
+    <div id="health-status">
+        <h2>Status: <%= health.status %>
+        </h2>
+        <p>Message: <%= health.message %>
+        </p>
+        <h3>Base de Datos</h3>
+        <p>Status: <%= health.database.status %>
+        </p>
+        <p>Message: <%= health.database.message %>
+        </p>
+        <p>Timestamp: <%= health.timestamp %>
+        </p>
+        <p>Uptime: <%= health.uptime %>
+        </p>
+        <h3>Memoria</h3>
+        <p>Usada: <%= health.memory.used %>
+        </p>
+        <p>Total: <%= health.memory.total %>
+        </p>
+    </div>
+</body>
+
+</html>

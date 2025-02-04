@@ -1,16 +1,18 @@
 // Se utiliza tanto en desarrollo como en producción. Establece la conexión a la base de datos utilizando las variables de entorno definidas en config.js.
 
 import mysql from "mysql2/promise";
+import {
+  DB_HOST,
+  DB_USER,
+  DB_PASSWORD,
+  DB_NAME,
+  DB_PORT,
+} from "../src/config.js";
 
-// Cargar .env solo en desarrollo
-// if (process.env.NODE_ENV !== 'production') {
-//   import('dotenv').then(dotenv => dotenv.config());
+// import dotenv from "dotenv";
+// if (process.env.NODE_ENV !== "production") {
+//   dotenv.config();
 // }
-
-import dotenv from "dotenv";
-if (process.env.NODE_ENV !== "production") {
-  dotenv.config();
-}
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
